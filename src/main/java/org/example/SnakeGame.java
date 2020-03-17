@@ -4,11 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Hello world!
@@ -16,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class SnakeGame extends JPanel implements Runnable,KeyListener
 {
-    private boolean isRunning = true;
+    public boolean isRunning = true;
     private JFrame frame;
 
     private Snake s;
@@ -61,6 +58,10 @@ public class SnakeGame extends JPanel implements Runnable,KeyListener
         int rows = height/scl;
         int x = (int)Math.floor(random(cols))*scl;
         int y = (int)Math.floor(random(rows))*scl;
+        if (x == 600)
+            x -= scl;
+        if (y == 600)
+            y -= scl;
         food = new Point(x,y);
         System.out.println(x + " " + y);
     }
@@ -83,11 +84,11 @@ public class SnakeGame extends JPanel implements Runnable,KeyListener
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
-        g2d.setBackground(Color.BLACK);
+        g2d.setBackground(Color.DARK_GRAY);
         g2d.clearRect(0,0,getWidth(),getHeight());
         draw(g2d);
         try {
-            Thread.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(70);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -106,6 +107,7 @@ public class SnakeGame extends JPanel implements Runnable,KeyListener
             case KeyEvent.VK_S:  s.dir(0,1);break;
             case KeyEvent.VK_A:  s.dir(-1,0);break;
             case KeyEvent.VK_D:  s.dir(1,0);break;
+            case KeyEvent.VK_T: s.total++;
         }
     }
 

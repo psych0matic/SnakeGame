@@ -2,7 +2,6 @@ package org.example;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Snake{
     public SnakeGame sg = new SnakeGame();
@@ -42,7 +41,6 @@ public class Snake{
             Point p = tail.get(i);
             double d = pos.distance(p);
             if (d < 1) {
-                System.out.println("Starting over");
                 total = 0;
                 tail.clear();
             }
@@ -65,7 +63,7 @@ public class Snake{
     }
 
     public void draw(Graphics2D g2d) {
-        g2d.setColor(Color.white);
+        g2d.setColor(Color.GREEN);
         for (Point p : tail) {
             g2d.fill(new Rectangle(p.x,p.y,scl,scl));
         }
