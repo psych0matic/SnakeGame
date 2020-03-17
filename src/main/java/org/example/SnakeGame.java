@@ -19,11 +19,12 @@ public class SnakeGame extends JPanel implements Runnable,KeyListener
     private boolean isRunning = true;
     private JFrame frame;
 
-    private Random rand = new Random();
     private Snake s;
     private Point food;
     public int scl = 20;
     public int width = 600, height = 600;
+
+
     public static void main( String[] args ) {
         SnakeGame s = new SnakeGame();
         s.run();
@@ -52,19 +53,26 @@ public class SnakeGame extends JPanel implements Runnable,KeyListener
     public void init() {
         canvas(width,height);
         s = new Snake();
-        food = pickLocation();
+        pickLocation();
     }
 
-    private Point pickLocation() {
-        int cols = (int)Math.floor(width/scl);
-        int rows = (int)Math.floor(height/scl);
-        return new Point((int)Math.floor(random(cols))*scl,(int)Math.floor(random(rows))*scl);
+    private void pickLocation() {
+        int cols = width/scl;
+        int rows = height/scl;
+        int x = (int)Math.floor(random(cols))*scl;
+        int y = (int)Math.floor(random(rows))*scl;
+        food = new Point(x,y);
+        System.out.println(x + " " + y);
     }
 
     private void draw(Graphics2D g2d) {
+        if (s.eat(food)) {
+            pickLocation();
+        }
+        s.death();
         s.update();
         s.draw(g2d);
-        s.eat(food);
+
         g2d.setColor(new Color(255,0,100));
         g2d.fillRect(food.x,food.y,scl,scl);
     }
